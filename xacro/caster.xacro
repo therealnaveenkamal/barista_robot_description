@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="caster"  xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="caster_length" value="0.01" />
+  <xacro:property name="caster_radius" value="0.035" />
+
+<xacro:macro name="caster" params="posi">
+
+  <link name="${posi}_yaw_link">
+    <visual>
+        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+        <geometry>
+          <cylinder length="${caster_length}" radius="${caster_radius}"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+    <collision>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.01" radius="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="${posi}_roll_link">
+      <visual>
+        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+        <geometry>
+          <cylinder length="${caster_length}" radius="${caster_radius}"/>
+        </geometry>
+        <material name="blue"/>
+      </visual>
+      <collision>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="${caster_length}" radius="${caster_radius}"/>
+      </geometry>
+    </collision>
+
+  </link>
+
+  <link name="${posi}_pitch_link">
+    <visual>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="${caster_length}" radius="${caster_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+</xacro:macro>
+
+</robot>

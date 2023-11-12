@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<robot name="box_bot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:include filename="$(find barista_robot_description)/xacro/wheel.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/caster.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/standoff.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
+
+
+  <material name="red">
+      <color rgba="1.0 0.0 0.0 1"/>
+  </material>
+
+  <material name="green_light">
+      <color rgba="0.0 1.0 0.0 1"/>
+  </material>
+
+  <material name="green_dark">
+    <color rgba="0.0 0.5 0.0 1"/>
+  </material>
+
+  <material name="blue">
+      <color rgba="0.0 0.0 1.0 1"/>
+  </material>
+
+  <material name="black">
+      <color rgba="0.0 0.0 0.0 1"/>
+  </material>
+
+  <material name="white">
+      <color rgba="1.0 1.0 1.0 1"/>
+  </material>
+
+  <material name="box_bot_blue">
+      <color rgba="0.088656 0.428691 0.491021 1"/>
+  </material>
+
+  <link name="base_link">
+  </link>
+
+  <!-- Body -->
+  <link name="chassis">
+    <visual>
+      <geometry>
+        <cylinder length="0.155" radius="0.178"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.155" radius="0.178" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.5" />
+      <inertia ixx="0.00496154167" ixy="0.0" ixz="0.0" iyy="0.00496154167" iyz="0.0" izz="0.007921" />
+    </inertial>
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="base_link" />
+    <child link="chassis" />
+  </joint>
+
+    <gazebo reference="chassis">
+        <material>Gazebo/Red</material>
+  </gazebo>
+
+
+  <xacro:standoff rod_name="rod_1" />
+  <xacro:standoff rod_name="rod_2" />
+  <xacro:standoff rod_name="rod_3" />
+  <xacro:standoff rod_name="rod_4" />
+
+  <joint name="rod_1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rod_1"/>
+    <origin rpy="0 0 0" xyz="0.130 0.05 0.185" />
+  </joint>
+
+  <gazebo reference="rod_1">
+        <material>Gazebo/White</material>
+  </gazebo>
+
+  <joint name="rod_2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rod_2"/>
+    <origin xyz="0.130 -0.05 0.185" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="rod_2">
+        <material>Gazebo/White</material>
+  </gazebo>
+
+  <joint name="rod_3_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rod_3"/>
+    <origin xyz="-0.130 0.05 0.185" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="rod_3">
+        <material>Gazebo/White</material>
+  </gazebo>
+
+  <joint name="rod_4_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rod_4"/>
+    <origin xyz="-0.130 -0.05 0.185" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="rod_4">
+        <material>Gazebo/White</material>
+  </gazebo>
+
+
+<xacro:cup_holder_tray cup_name="cupholder_link" />
+
+
+<joint name="cupholder_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="cupholder_link"/>
+  <origin xyz="0 0 0.330" rpy="0 0 0"/>
+</joint>
+
+<gazebo reference="cupholder_link">
+    <material>Gazebo/Red</material>
+</gazebo>
+
+
+
+
+  <xacro:wheel wheel_name="left_wheel" />
+  <xacro:wheel wheel_name="right_wheel" />
+
+  <joint name="joint_left_wheel" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.15 -0.0775"/>
+    <child link="left_wheel"/>
+    <parent link="base_link"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="100"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+  
+  <joint name="joint_right_wheel" type="fixed">  
+    <origin rpy="0 0 0" xyz="0 -0.15 -0.0775"/>
+    <child link="right_wheel"/>
+    <parent link="base_link"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="100"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+  <gazebo reference="left_wheel">
+    <kp>10000000000000.0</kp>
+    <kd>10000000000000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+    <kp>10000000000000.0</kp>
+    <kd>10000000000000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+
+
+<xacro:caster posi="front" />
+
+
+  <joint name="front_yaw_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.10 0 -0.0770" />
+    <parent link="chassis" />
+    <child link="front_yaw_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+  <gazebo reference="front_yaw_link">
+        <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <joint name="front_roll_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="front_yaw_link" />
+    <child link="front_roll_link" />
+    <axis xyz="1 0 0" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+
+  <gazebo reference="front_roll_link">
+        <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <joint name="front_pitch_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="front_roll_link" />
+    <child link="front_pitch_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+  
+  <gazebo reference="front_pitch_link">
+    <kp>10000000.0</kp>
+    <kd>10000000.0</kd>
+    <mu1>0.5</mu1>
+    <mu2>0.5</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+
+
+<xacro:caster posi="back" />
+
+  <joint name="back_yaw_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.10 0 -0.0770" />
+    <parent link="chassis" />
+    <child link="back_yaw_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+  
+  <gazebo reference="back_yaw_link">
+        <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <joint name="back_roll_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="back_yaw_link" />
+    <child link="back_roll_link" />
+    <axis xyz="1 0 0" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+  
+  <gazebo reference="back_roll_link">
+        <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <joint name="back_pitch_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="back_roll_link" />
+    <child link="back_pitch_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="1000.0" velocity="100.0" />
+    <dynamics damping="0.0" friction="0.1"/>
+  </joint>
+  
+  <gazebo reference="back_pitch_link">
+    <kp>1000000000.0</kp>
+    <kd>1000000000.0</kd>
+    <mu1>0.5</mu1>
+    <mu2>0.5</mu2>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+
+<xacro:laser_scanner include_laser="$(arg include_laser)" />
+
+ 
+  <!-- Differential drive -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+
+      <!-- wheels -->
+      <left_joint>joint_left_wheel</left_joint>
+      <right_joint>joint_right_wheel</right_joint>
+
+      <!-- kinematics -->
+      <wheel_separation>0.1</wheel_separation>
+      <wheel_diameter>0.07</wheel_diameter>
+
+      <!-- limits -->
+      <max_wheel_torque>1.0</max_wheel_torque>
+      <max_wheel_acceleration>2.0</max_wheel_acceleration>
+
+      <!-- output -->
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+
+    </plugin>
+  </gazebo>
+
+  
+</robot>
