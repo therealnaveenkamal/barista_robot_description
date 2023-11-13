@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="laser_scanner"  xmlns:xacro="http://ros.org/wiki/xacro">
 
-<xacro:macro name="laser_scanner" params="include_laser:=true">
+<xacro:macro name="laser_scanner" params="robot_name include_laser:=true">
     <xacro:if value="${include_laser}">
 
     <link name="lidar">
@@ -43,6 +43,7 @@
         <update_rate>100.0</update_rate>
         <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
           <ros>
+            <namespace>${robot_name}</namespace>
             <remapping>~/out:=scan</remapping>
           </ros>
           <output_type>sensor_msgs/LaserScan</output_type>
