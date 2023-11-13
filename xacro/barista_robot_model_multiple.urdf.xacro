@@ -7,6 +7,8 @@
 <xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
 
+<xacro:property name="robot_name" value="$(arg robot_name)"/>
+
 
   <material name="red">
       <color rgba="1.0 0.0 0.0 1"/>
@@ -135,7 +137,7 @@
   <xacro:wheel wheel_name="left_wheel" />
   <xacro:wheel wheel_name="right_wheel" />
 
-  <joint name="joint_left_wheel" type="fixed">
+  <joint name="joint_left_wheel" type="continuous">
     <origin rpy="0 0 0" xyz="0 0.15 -0.0775"/>
     <child link="left_wheel"/>
     <parent link="base_link"/>
@@ -144,7 +146,7 @@
     <joint_properties damping="1.0" friction="1.0"/>
   </joint>
   
-  <joint name="joint_right_wheel" type="fixed">  
+  <joint name="joint_right_wheel" type="continuous">  
     <origin rpy="0 0 0" xyz="0 -0.15 -0.0775"/>
     <child link="right_wheel"/>
     <parent link="base_link"/>
@@ -264,8 +266,27 @@
   </gazebo>
 
 
-<xacro:laser_scanner include_laser="$(arg include_laser)" />
+<xacro:laser_scanner include_laser="$(arg include_laser)" robot_name="${robot_name}" />
 
+<gazebo>
+    <plugin name="box_bot_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
+      <ros>
+          <namespace>/${robot_name}</namespace>
+          <remapping>~/out:=joint_states</remapping>
+      </ros>
+      <update_rate>30</update_rate>
+
+      <joint_name>joint_left_wheel</joint_name>
+      <joint_name>joint_right_wheel</joint_name>
+      <joint_name>front_yaw_joint</joint_name>
+      <joint_name>back_yaw_joint</joint_name>
+      <joint_name>front_roll_joint</joint_name>
+      <joint_name>back_roll_joint</joint_name>
+      <joint_name>front_pitch_joint</joint_name>
+      <joint_name>back_pitch_joint</joint_name>
+      
+    </plugin>
+  </gazebo>
  
   <!-- Differential drive -->
   <gazebo>
@@ -287,8 +308,14 @@
       <publish_odom>true</publish_odom>
       <publish_odom_tf>true</publish_odom_tf>
 
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <odometry_frame>${robot_name}/odom</odometry_frame>
+      <robot_base_frame>${robot_name}/base_link</robot_base_frame>
+
+        <ros>
+            <namespace>/${robot_name}</namespace>
+            <remapping>~/out:=cmd_vel</remapping>
+        </ros>
+
 
     </plugin>
   </gazebo>

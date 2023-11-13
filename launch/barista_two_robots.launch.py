@@ -22,7 +22,7 @@ def generate_launch_description():
 
     # Set the path to the WORLD model files. Is to find the models inside the models folder in my_box_bot_gazebo package
     gazebo_models_path = os.path.join(pkg_box_bot_gazebo, 'meshes')
-    robot_path = os.path.join(pkg_box_bot_gazebo, "xacro", 'barista_robot_model.urdf.xacro')
+    robot_path = os.path.join(pkg_box_bot_gazebo, "xacro", 'barista_robot_model_multiple.urdf.xacro')
 
     # os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
 
@@ -47,7 +47,7 @@ def generate_launch_description():
         )
     )
 
-    robot_name_1 = "ricky"
+    robot_name_1 = "rick"
     robot_name_2 = "morty"
 
     robot_state_publisher_node1 = Node(
@@ -96,7 +96,7 @@ def generate_launch_description():
         executable='spawn_entity.py',
         name='spawn_entity_1',
         output='screen',
-        arguments=['-entity', 'ricky',
+        arguments=['-entity', 'rick',
                    '-x', '0', '-y', '0', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
                    '-topic', robot_name_1+'/robot_description'
