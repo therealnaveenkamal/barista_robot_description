@@ -8,7 +8,7 @@
         <visual>
         <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://barista_robot_description/meshes/sick_microscan3.dae"/>
+                <mesh filename="package://barista_robot_description/meshes/sick_microscan3.dae" scale="0.5 0.5 0.5"/>
             </geometry>
             
       <material name="black"/>
@@ -27,20 +27,20 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>200</samples>
-              <resolution>1.0</resolution>
+              <samples>720</samples>
+              <resolution>2.0</resolution>
               <min_angle>-3.14</min_angle>
               <max_angle>3.14</max_angle>
             </horizontal>
           </scan>
           <range>
-            <min>0.1</min>
-            <max>5.0</max>
+            <min>0.05</min>
+            <max>3.0</max>
           </range>
         </ray>
         <always_on>true</always_on>
         <visualize>true</visualize>
-        <update_rate>100.0</update_rate>
+        <update_rate>1</update_rate>
         <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
           <ros>
             <namespace>${robot_name}</namespace>

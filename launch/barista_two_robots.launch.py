@@ -97,7 +97,7 @@ def generate_launch_description():
         name='spawn_entity_1',
         output='screen',
         arguments=['-entity', 'rick',
-                   '-x', '0', '-y', '0', '-z', '0.2',
+                   '-x', '4', '-y', '0', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
                    '-topic', robot_name_1+'/robot_description'
                    ]
@@ -109,7 +109,7 @@ def generate_launch_description():
         name='spawn_entity_2',
         output='screen',
         arguments=['-entity', 'morty',
-                   '-x', '5', '-y', '5', '-z', '0.2',
+                   '-x', '4', '-y', '3', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
                    '-topic', robot_name_2+'/robot_description'
                    ]

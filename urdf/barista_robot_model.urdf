@@ -512,7 +512,7 @@
         <visual>
         <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
-                <mesh filename="package://barista_robot_description/meshes/sick_microscan3.dae"/>
+                <mesh filename="package://barista_robot_description/meshes/sick_microscan3.dae" scale="0.5 0.5 0.5"/>
             </geometry>
             
       <material name="black"/>
@@ -538,7 +538,7 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>200</samples>
+              <samples>720</samples>
               <resolution>1.0</resolution>
               <min_angle>-3.14</min_angle>
               <max_angle>3.14</max_angle>
