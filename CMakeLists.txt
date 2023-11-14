@@ -29,6 +29,7 @@ install(
 	rviz
     launch
 	meshes
+	materials
 	worlds
 	xacro
   DESTINATION

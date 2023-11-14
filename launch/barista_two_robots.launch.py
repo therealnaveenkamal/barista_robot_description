@@ -60,7 +60,7 @@ def generate_launch_description():
             'tf_prefix': robot_name_1+'/',
             'frame_prefix': robot_name_1+'/',
             'use_sim_time': True,
-            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_1])
+            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_1, ' gazebo_color:=', 'Gazebo/Red'])
         }],
         output="screen"
     )
@@ -75,13 +75,13 @@ def generate_launch_description():
             'tf_prefix': robot_name_2+'/',
             'frame_prefix': robot_name_2+'/',
             'use_sim_time': True,
-            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_2])
+            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_2, ' gazebo_color:=', 'Gazebo/Blue'])
         }],
         output="screen"
     )
 
 
-    rviz_config_dir = os.path.join(pkg_box_bot_gazebo, 'rviz', 'urdf_vis_v2.rviz')
+    rviz_config_dir = os.path.join(pkg_box_bot_gazebo, 'rviz', 'urdf_vis_v5.rviz')
 
 
     rviz_node = Node(
