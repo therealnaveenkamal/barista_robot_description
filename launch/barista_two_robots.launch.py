@@ -57,6 +57,7 @@ def generate_launch_description():
         namespace=robot_name_1,
         emulate_tty=True,
         parameters=[{
+            'tf_prefix': robot_name_1+'/',
             'frame_prefix': robot_name_1+'/',
             'use_sim_time': True,
             'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_1])
@@ -71,6 +72,7 @@ def generate_launch_description():
         namespace=robot_name_2,
         emulate_tty=True,
         parameters=[{
+            'tf_prefix': robot_name_2+'/',
             'frame_prefix': robot_name_2+'/',
             'use_sim_time': True,
             'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_2])
@@ -79,7 +81,7 @@ def generate_launch_description():
     )
 
 
-    rviz_config_dir = os.path.join(pkg_box_bot_gazebo, 'rviz', 'urdf_vis.rviz')
+    rviz_config_dir = os.path.join(pkg_box_bot_gazebo, 'rviz', 'urdf_vis_v2.rviz')
 
 
     rviz_node = Node(
@@ -99,7 +101,8 @@ def generate_launch_description():
         arguments=['-entity', 'rick',
                    '-x', '4', '-y', '0', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
-                   '-topic', robot_name_1+'/robot_description'
+                   '-topic', '/' + robot_name_1 + '/robot_description'
+
                    ]
     )
 
@@ -111,7 +114,8 @@ def generate_launch_description():
         arguments=['-entity', 'morty',
                    '-x', '4', '-y', '3', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
-                   '-topic', robot_name_2+'/robot_description'
+                   '-topic', '/' + robot_name_2 + '/robot_description'
+
                    ]
     )
 
@@ -139,6 +143,27 @@ def generate_launch_description():
         arguments=['0', '0', '0', '0', '0', '0', 'world', 'rick/odom']
     )
 
+    spawn_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+        output="screen",
+    )
+
+    spawn_controller_traj = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_trajectory_controller"],
+        output="screen",
+    )
+
+    spawn_controller_velocity = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["velocity_controller"],
+        output="screen",
+    )
+
 
     return LaunchDescription([
     include_laser_arg,
@@ -152,6 +177,6 @@ def generate_launch_description():
         spawn_robot1,
         spawn_robot2,
         rviz_node,
-        static_tf_rick,
-        static_tf_morty
+        static_tf_morty,
+        static_tf_rick
     ])

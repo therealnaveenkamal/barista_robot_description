@@ -264,7 +264,7 @@
   </gazebo>
 
 
-<xacro:laser_scanner include_laser="$(arg include_laser)" />
+<xacro:laser_scanner include_laser="True" />
 
  
   <!-- Differential drive -->

@@ -1,57 +1,59 @@
 <?xml version="1.0"?>
-<robot name="laser_scanner"  xmlns:xacro="http://ros.org/wiki/xacro">
-
-<xacro:macro name="laser_scanner" params="robot_name include_laser:=true">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:macro name="laser_scanner" params="robot_name include_laser:=true">
     <xacro:if value="${include_laser}">
+      <link name="lidar">
+          <visual>
+          <origin rpy="0 0 0" xyz="0.0 0 -0.05" />
+              <geometry>
+                  <mesh filename="package://barista_robot_description/meshes/hokuyo_urg_04lx.dae"/>
+              </geometry>
+          </visual>
+      </link>
 
-    <link name="lidar">
-        <visual>
-        <origin rpy="0 0 0" xyz="0 0 0" />
-            <geometry>
-                <mesh filename="package://barista_robot_description/meshes/sick_microscan3.dae" scale="0.5 0.5 0.5"/>
-            </geometry>
-            
-      <material name="black"/>
-        </visual>
-    </link>
+      <joint name="lidar_joint" type="fixed">
+          <origin rpy="0 0 0" xyz="-0.05 0 0.125" />
+          <parent link="chassis" />
+          <child link="lidar" />
+      </joint>
 
-    <joint name="lidar_joint" type="fixed">
-        <origin rpy="0 0 0" xyz="0 0 0.0775" />
-        <parent link="base_link" />
-        <child link="lidar" />
-    </joint>
-    
+      <gazebo reference="lidar">
+          <material>Gazebo/Black</material>
+      </gazebo>
+
     <gazebo reference="lidar">
-        <sensor name="sensor_ray" type="ray">
-        <pose>0 0 0 0 0 0</pose>
-        <ray>
-          <scan>
-            <horizontal>
-              <samples>720</samples>
-              <resolution>2.0</resolution>
-              <min_angle>-3.14</min_angle>
-              <max_angle>3.14</max_angle>
-            </horizontal>
-          </scan>
-          <range>
-            <min>0.05</min>
-            <max>3.0</max>
-          </range>
-        </ray>
-        <always_on>true</always_on>
-        <visualize>true</visualize>
-        <update_rate>1</update_rate>
-        <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
-          <ros>
-            <namespace>${robot_name}</namespace>
-            <remapping>~/out:=scan</remapping>
-          </ros>
-          <output_type>sensor_msgs/LaserScan</output_type>
-        </plugin>
+      <sensor name="ray" type="ray">
+          <pose>0 0 0 0 0 0</pose>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>360</samples>
+                <resolution>5.0</resolution>
+                <min_angle>-3.14</min_angle>
+                <max_angle>3.14</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.025</min>
+              <max>5.0</max>
+            </range>
+          </ray>
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>50.0</update_rate>
+          <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+                <namespace>${robot_name}</namespace>
+              <remapping>~/out:=scan</remapping>
+
+            </ros>
+            <output_type>sensor_msgs/LaserScan</output_type>
+          </plugin>
       </sensor>
     </gazebo>
 
-</xacro:if>
-</xacro:macro>
+    </xacro:if>
+  </xacro:macro>
 
 </robot>
