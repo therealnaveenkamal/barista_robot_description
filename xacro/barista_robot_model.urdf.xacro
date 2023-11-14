@@ -5,7 +5,7 @@
 <xacro:include filename="$(find barista_robot_description)/xacro/caster.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/standoff.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
-<xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner_single.xacro" />
 
 
   <material name="red">
